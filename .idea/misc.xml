@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CMakeSettings">
+    <configurations>
+      <configuration PROFILE_NAME="Debug" CONFIG_NAME="Debug" />
+    </configurations>
+  </component>
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="../../.gradle/caches/transforms-3/0e3e30cc2836a69bf2b145f3ddddab1b/transformed/RxUI-2.6.3/res/layout/popupwindow_definition_layout.xml" value="0.1796875" />
+        <entry key="app/src/main/res/layout/activity_box_preview.xml" value="0.19746376811594202" />
+        <entry key="app/src/main/res/layout/activity_box_scan.xml" value="0.13020833333333334" />
+        <entry key="app/src/main/res/layout/activity_box_transfer_preview.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_check.xml" value="0.16666666666666666" />
+        <entry key="app/src/main/res/layout/activity_check_preview.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/activity_dbpull.xml" value="0.1595744680851064" />
+        <entry key="app/src/main/res/layout/activity_in_out.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_inst_preview.xml" value="0.13541666666666666" />
+        <entry key="app/src/main/res/layout/activity_inst_scan.xml" value="0.13541666666666666" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_setting.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_staff_scan.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_sunmi_box_scan.xml" value="0.14635416666666667" />
+        <entry key="app/src/main/res/layout/activity_sunmi_inst_scan.xml" value="0.14635416666666667" />
+        <entry key="app/src/main/res/layout/activity_sunmi_staff_scan.xml" value="0.29936594202898553" />
+        <entry key="app/src/main/res/layout/activity_sunmiscan.xml" value="0.328125" />
+        <entry key="app/src/main/res/layout/activity_transfer.xml" value="0.17552083333333332" />
+        <entry key="app/src/main/res/layout/activity_transfer_preview.xml" value="0.36619718309859156" />
+        <entry key="app/src/main/res/layout/popup_select_wh.xml" value="0.16666666666666666" />
+        <entry key="app/src/main/res/layout/toolbar.xml" value="0.13541666666666666" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
