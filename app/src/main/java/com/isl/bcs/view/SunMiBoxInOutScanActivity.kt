@@ -14,6 +14,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import com.drake.serialize.intent.openActivity
+import com.drake.tooltip.toast
 import com.isl.bcs.R
 import com.isl.bcs.base.BaseActivity
 import com.isl.bcs.model.*
@@ -173,10 +174,6 @@ class SunMiBoxInOutScanActivity : BaseActivity(), SurfaceHolder.Callback {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-    }
-
     private fun initBeepSound() {
         if (soundUtils == null) {
             soundUtils = SoundUtils(this, SoundUtils.RING_SOUND)
@@ -261,7 +258,7 @@ class SunMiBoxInOutScanActivity : BaseActivity(), SurfaceHolder.Callback {
             for (sym in syms)  //如果允许识读多个条码，则解码结果可能不止一个
             {
                 val res = sym.result
-                Log.e("123",res)
+                Log.e("123", res)
                 val instData = intent.getStringExtra("instData")?.split(",")!!
                 if (instData[0].startsWith("O")) {
                     val boxOutRes = LitePal.where("BOX_LABEL1 = ?", res).find<BoxOut>()
@@ -276,7 +273,12 @@ class SunMiBoxInOutScanActivity : BaseActivity(), SurfaceHolder.Callback {
                         }.show()
                     } else {
                         val boxInRes = LitePal.where("BOX_LABEL1 = ?", res).find<InstItemOut>()
+
                         if (boxInRes.isNotEmpty()) {
+                            if (boxInRes[0].ITEM_1 != instData[5]) {
+                                toast(getString(R.string.error_item))
+                                return@PreviewCallback
+                            }
                             openActivity<BoxInOutPreviewActivity>(
                                 "boxData" to boxInRes[0].BOX_LABEL1,
                                 "scanKey" to boxInRes[0].SCAN_KEY,

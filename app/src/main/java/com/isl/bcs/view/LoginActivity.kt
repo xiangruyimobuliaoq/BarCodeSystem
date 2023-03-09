@@ -1,7 +1,9 @@
 package com.isl.bcs.view
 
+import android.content.*
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.IBinder
 import android.util.Log
 import com.drake.net.Post
 import com.drake.net.utils.scopeDialog
@@ -14,6 +16,7 @@ import com.isl.bcs.databinding.ActivityLoginBinding
 import com.isl.bcs.model.UserInfo
 import com.isl.bcs.utils.Constants
 import org.json.JSONObject
+import kotlin.math.log
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -21,8 +24,10 @@ import org.json.JSONObject
  */
 class LoginActivity : AppCompatActivity() {
 
-    private var userId = "system"
-    private var password = "f"
+    private val userId = "system"
+    private val password = "f"
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,7 +58,7 @@ class LoginActivity : AppCompatActivity() {
                                         .put("company_code", Constants.companyCode).toString()
                                 )
                             }.await()
-                            Log.e("123", "json.getString(data)")
+                            Log.e("123", resp.toString())
                             if (resp?.tokenID?.isNotEmpty() == true) {
                                 Constants.token = resp?.tokenID
                                 App.app.initNet()
@@ -64,5 +69,6 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
         }
+
     }
 }

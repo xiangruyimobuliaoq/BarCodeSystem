@@ -66,7 +66,7 @@ class DBPullActivity : BaseActivity() {
                 }
             }
             btnNext.setOnClickListener {
-                openActivity<SunMiStaffScanActivity>(
+                openActivity<L2StaffScanActivity>(
                     Constants.INTENT_TYPE to type
                 )
             }

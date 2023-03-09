@@ -53,4 +53,7 @@
     <string name="transfer">TRANSFER</string>
     <string name="complete">Complete</string>
     <string name="staff_code_error">STAFF CODE IS ERROR</string>
+    <string name="error_item">ITEM ERROR</string>
+    <string name="scan_staff_card_no">Scan Staff Card No.</string>
+    <string name="qty">qty.</string>
 </resources>

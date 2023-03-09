@@ -1,10 +1,8 @@
 package com.isl.bcs.view
 
 import android.os.Bundle
-import com.drake.net.Net
 import com.drake.net.Put
 import com.drake.net.utils.scopeDialog
-import com.drake.net.utils.withDefault
 import com.drake.net.utils.withIO
 import com.drake.serialize.intent.openActivity
 import com.drake.statusbar.immersive
@@ -50,13 +48,10 @@ class CheckActivity : BaseActivity() {
                         scopeDialog {
                             withIO {
                                 val boxCheck = LitePal.findAll<BoxCheck>()
-                                withDefault {
-                                    if (boxCheck.isNotEmpty()) {
-
-                                        Put<String>("/scan/stock_check") {
-                                            json(Json.encodeToString(boxCheck))
-                                        }.await()
-                                    }
+                                if (boxCheck.isNotEmpty()) {
+                                    Put<String>("/scan/stock_check") {
+                                        json(Json.encodeToString(boxCheck))
+                                    }.await()
                                 }
                                 LitePal.deleteAll<BoxCheck>()
                             }
@@ -70,7 +65,7 @@ class CheckActivity : BaseActivity() {
                 }.show()
             }
             ivScan.setOnClickListener {
-                openActivity<SunMiBoxCheckScanActivity>()
+                openActivity<L2BoxCheckScanActivity>()
             }
         }
     }

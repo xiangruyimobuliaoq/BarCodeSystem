@@ -24,6 +24,7 @@ class BoxCheck(
     var CHECKED_DATE: String = "",
     var U_ID_NO: String = "",
     var U_DATETIME: String = "",
+    var DESCRIPTION_1: String = "",
 ) : LitePalSupport() {
     @Transient
     var id: Long = 0

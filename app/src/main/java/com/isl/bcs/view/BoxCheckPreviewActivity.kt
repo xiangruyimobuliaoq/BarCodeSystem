@@ -53,8 +53,8 @@ class BoxCheckPreviewActivity : BaseActivity() {
             }
 
             btnOk.setOnClickListener {
-                val res =
-                    LitePal.where("SCAN_KEY=?", boxData.SCAN_KEY.toString()).find<BoxCheck>()
+//                val res =
+//                    LitePal.where("SCAN_KEY=?", boxData.SCAN_KEY.toString()).find<BoxCheck>()
 //                if (res.isEmpty()) {
                     BoxCheck(
                         boxData.SCAN_KEY,

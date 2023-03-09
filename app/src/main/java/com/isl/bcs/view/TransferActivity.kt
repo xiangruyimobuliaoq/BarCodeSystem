@@ -68,7 +68,7 @@ class TransferActivity : BaseActivity() {
                 }.show()
             }
             ivScan.setOnClickListener {
-                openActivity<SunMiBoxTransferScanActivity>()
+                openActivity<L2BoxTransferScanActivity>()
             }
         }
     }

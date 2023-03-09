@@ -25,6 +25,13 @@ class BoxOut(
     var U_ID_NO: String = "",
     var OUT_DATE: String = "",
     var U_DATETIME: String = "",
+    var ITEM_KEY: Int ,
+    var ITEM_1: String = "",
+    var WH_LOC1: String = "",
+    var WH_LOC2: String = "",
+    var DESCRIPTION_1: String = "",
+    var ITEM_QTY: Int,
+
 ) : LitePalSupport() {
     @Transient
     var id: Long = 0

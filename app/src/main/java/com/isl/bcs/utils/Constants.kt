@@ -24,7 +24,7 @@ class Constants {
         const val TYPE_TRANSFER: String = "transfer"
         var currentStaff: Staff? by serial()
         var companyCode: String? by serial("AC0001")
-        var endPoint: String? by serial("https://flex1.marrella.biz:91/")
+        var endPoint: String? by serial("http://www.lsgb.net.cn:29646/")
         var token: String? by serial()
         fun toMD5(text: String): String {
             try {

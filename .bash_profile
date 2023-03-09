@@ -1,1 +1,0 @@
-export PATH=${PATH}:/Users/penglong/Library/Android/sdk/tools:/Users/penglong/Library/Android/sdk/platform-tools

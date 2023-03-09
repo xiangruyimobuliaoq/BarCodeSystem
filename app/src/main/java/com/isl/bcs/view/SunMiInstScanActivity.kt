@@ -211,7 +211,7 @@ class SunMiInstScanActivity : BaseActivity(), SurfaceHolder.Callback {
         if (use_auto_focus) autoFocusHandler = Handler()
         decode_count = 0
 
-        findViewById<View>(R.id.btn_exit).setOnClickListener {
+        findViewById<View>(R.id.btn_start).setOnClickListener {
             ScaleUpDowm(findViewById(R.id.capture_scan_line))
         }
         findViewById<View>(R.id.btn_exit).setOnClickListener {
@@ -230,7 +230,7 @@ class SunMiInstScanActivity : BaseActivity(), SurfaceHolder.Callback {
             for (sym in syms)  //如果允许识读多个条码，则解码结果可能不止一个
             {
                 val split = sym.result.split(",")
-                if (split.isEmpty() || split.size < 12) {
+                if (split.isEmpty() || split.size < 16) {
                     RxDialogSure(this@SunMiInstScanActivity).apply {
                         setContent(getString(R.string.error_code))
                         setSure(getString(R.string.dialog_ok))

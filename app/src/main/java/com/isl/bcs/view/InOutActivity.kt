@@ -5,7 +5,6 @@ import android.os.Bundle
 import com.drake.net.Post
 import com.drake.net.Put
 import com.drake.net.utils.scopeDialog
-import com.drake.net.utils.withDefault
 import com.drake.net.utils.withIO
 import com.drake.serialize.intent.openActivity
 import com.drake.statusbar.immersive
@@ -47,27 +46,25 @@ class InOutActivity : BaseActivity() {
                                 val boxOut = LitePal.findAll<BoxOut>()
                                 val instTrxIn = LitePal.findAll<InstTrxIn>()
                                 val instTrxOut = LitePal.findAll<InstTrxOut>()
-                                withDefault {
-                                    if (boxIn.isNotEmpty()) {
-                                        Post<String>("/scan/stock") {
-                                            json(Json.encodeToString(boxIn))
-                                        }.await()
-                                    }
-                                    if (instTrxIn.isNotEmpty()) {
-                                        Put<String>("/inst/in") {
-                                            json(Json.encodeToString(instTrxIn))
-                                        }.await()
-                                    }
-                                    if (boxOut.isNotEmpty()) {
-                                        Put<String>("/scan/stock_out") {
-                                            json(Json.encodeToString(boxOut))
-                                        }.await()
-                                    }
-                                    if (instTrxOut.isNotEmpty()) {
-                                        Put<String>("/inst/out") {
-                                            json(Json.encodeToString(instTrxOut))
-                                        }.await()
-                                    }
+                                if (boxIn.isNotEmpty()) {
+                                    Post<String>("/scan/stock") {
+                                        json(Json.encodeToString(boxIn))
+                                    }.await()
+                                }
+                                if (instTrxIn.isNotEmpty()) {
+                                    Put<String>("/inst/in") {
+                                        json(Json.encodeToString(instTrxIn))
+                                    }.await()
+                                }
+                                if (boxOut.isNotEmpty()) {
+                                    Put<String>("/scan/stock_out") {
+                                        json(Json.encodeToString(boxOut))
+                                    }.await()
+                                }
+                                if (instTrxOut.isNotEmpty()) {
+                                    Put<String>("/inst/out") {
+                                        json(Json.encodeToString(instTrxOut))
+                                    }.await()
                                 }
                                 LitePal.deleteAll<BoxIn>()
                                 LitePal.deleteAll<BoxOut>()
@@ -76,6 +73,7 @@ class InOutActivity : BaseActivity() {
                             }
                             dismiss()
                             openActivity<MainActivity>()
+                            finish()
                         }
                     }
                     setCancelListener {
@@ -84,7 +82,7 @@ class InOutActivity : BaseActivity() {
                 }.show()
             }
             ivScan.setOnClickListener {
-                openActivity<SunMiInstScanActivity>()
+                openActivity<L2InstScanActivity>()
             }
         }
     }
