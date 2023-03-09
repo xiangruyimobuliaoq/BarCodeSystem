@@ -50,13 +50,10 @@ class CheckActivity : BaseActivity() {
                         scopeDialog {
                             withIO {
                                 val boxCheck = LitePal.findAll<BoxCheck>()
-                                withDefault {
-                                    if (boxCheck.isNotEmpty()) {
-
-                                        Put<String>("/scan/stock_check") {
-                                            json(Json.encodeToString(boxCheck))
-                                        }.await()
-                                    }
+                                if (boxCheck.isNotEmpty()) {
+                                    Put<String>("/scan/stock_check") {
+                                        json(Json.encodeToString(boxCheck))
+                                    }.await()
                                 }
                                 LitePal.deleteAll<BoxCheck>()
                             }

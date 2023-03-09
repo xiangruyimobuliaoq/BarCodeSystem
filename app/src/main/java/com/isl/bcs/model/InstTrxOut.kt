@@ -20,7 +20,9 @@ class InstTrxOut(
     var SCAN_QTY: Int = 0,
     var INST_CLOSE_FLAG: Boolean,
     var S_DATETIME: String = "",
-    var S_USER: String? = ""
+    var S_USER: String? = "",
+    var PCS_QTY: Int = 0,
+    var SCAN_ITEM_QTY: Int = 0,
 ) : LitePalSupport() {
     var id: Long = 0
 }

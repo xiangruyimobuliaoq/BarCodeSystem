@@ -47,27 +47,25 @@ class InOutActivity : BaseActivity() {
                                 val boxOut = LitePal.findAll<BoxOut>()
                                 val instTrxIn = LitePal.findAll<InstTrxIn>()
                                 val instTrxOut = LitePal.findAll<InstTrxOut>()
-                                withDefault {
-                                    if (boxIn.isNotEmpty()) {
-                                        Post<String>("/scan/stock") {
-                                            json(Json.encodeToString(boxIn))
-                                        }.await()
-                                    }
-                                    if (instTrxIn.isNotEmpty()) {
-                                        Put<String>("/inst/in") {
-                                            json(Json.encodeToString(instTrxIn))
-                                        }.await()
-                                    }
-                                    if (boxOut.isNotEmpty()) {
-                                        Put<String>("/scan/stock_out") {
-                                            json(Json.encodeToString(boxOut))
-                                        }.await()
-                                    }
-                                    if (instTrxOut.isNotEmpty()) {
-                                        Put<String>("/inst/out") {
-                                            json(Json.encodeToString(instTrxOut))
-                                        }.await()
-                                    }
+                                if (boxIn.isNotEmpty()) {
+                                    Post<String>("/scan/stock") {
+                                        json(Json.encodeToString(boxIn))
+                                    }.await()
+                                }
+                                if (instTrxIn.isNotEmpty()) {
+                                    Put<String>("/inst/in") {
+                                        json(Json.encodeToString(instTrxIn))
+                                    }.await()
+                                }
+                                if (boxOut.isNotEmpty()) {
+                                    Put<String>("/scan/stock_out") {
+                                        json(Json.encodeToString(boxOut))
+                                    }.await()
+                                }
+                                if (instTrxOut.isNotEmpty()) {
+                                    Put<String>("/inst/out") {
+                                        json(Json.encodeToString(instTrxOut))
+                                    }.await()
                                 }
                                 LitePal.deleteAll<BoxIn>()
                                 LitePal.deleteAll<BoxOut>()
@@ -76,6 +74,7 @@ class InOutActivity : BaseActivity() {
                             }
                             dismiss()
                             openActivity<MainActivity>()
+                            finish()
                         }
                     }
                     setCancelListener {

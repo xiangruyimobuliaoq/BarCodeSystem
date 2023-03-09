@@ -35,7 +35,7 @@ class MainActivity : BaseActivity() {
             toolbar.tvTitle.text = getString(R.string.home)
             immersive(toolbar.toolbar, false)
             ivExit.setOnClickListener {
-                onBackPressed()
+                onBackPressedDispatcher.onBackPressed()
             }
             ivCheck.setOnClickListener {
                 openActivity<DBPullActivity>(
@@ -67,37 +67,35 @@ class MainActivity : BaseActivity() {
                                 val boxCheck = LitePal.findAll<BoxCheck>()
                                 val instTrxIn = LitePal.findAll<InstTrxIn>()
                                 val instTrxOut = LitePal.findAll<InstTrxOut>()
-                                com.drake.net.utils.withDefault {
-                                    if (boxIn.isNotEmpty()) {
-                                        Post<String>("/scan/stock") {
-                                            json(Json.encodeToString(boxIn))
-                                        }.await()
-                                    }
-                                    if (instTrxIn.isNotEmpty()) {
-                                        Put<String>("/inst/in") {
-                                            json(Json.encodeToString(instTrxIn))
-                                        }.await()
-                                    }
-                                    if (boxOut.isNotEmpty()) {
-                                        Put<String>("/scan/stock_out") {
-                                            json(Json.encodeToString(boxOut))
-                                        }.await()
-                                    }
-                                    if (instTrxOut.isNotEmpty()) {
-                                        Put<String>("/inst/out") {
-                                            json(Json.encodeToString(instTrxOut))
-                                        }.await()
-                                    }
-                                    if (boxTransfer.isNotEmpty()) {
-                                        Put<String>("/scan/stock_trf") {
-                                            json(Json.encodeToString(boxTransfer))
-                                        }.await()
-                                    }
-                                    if (boxTransfer.isNotEmpty()) {
-                                        Put<String>("/scan/stock_check") {
-                                            json(Json.encodeToString(boxCheck))
-                                        }.await()
-                                    }
+                                if (boxIn.isNotEmpty()) {
+                                    Post<String>("/scan/stock") {
+                                        json(Json.encodeToString(boxIn))
+                                    }.await()
+                                }
+                                if (instTrxIn.isNotEmpty()) {
+                                    Put<String>("/inst/in") {
+                                        json(Json.encodeToString(instTrxIn))
+                                    }.await()
+                                }
+                                if (boxOut.isNotEmpty()) {
+                                    Put<String>("/scan/stock_out") {
+                                        json(Json.encodeToString(boxOut))
+                                    }.await()
+                                }
+                                if (instTrxOut.isNotEmpty()) {
+                                    Put<String>("/inst/out") {
+                                        json(Json.encodeToString(instTrxOut))
+                                    }.await()
+                                }
+                                if (boxTransfer.isNotEmpty()) {
+                                    Put<String>("/scan/stock_trf") {
+                                        json(Json.encodeToString(boxTransfer))
+                                    }.await()
+                                }
+                                if (boxTransfer.isNotEmpty()) {
+                                    Put<String>("/scan/stock_check") {
+                                        json(Json.encodeToString(boxCheck))
+                                    }.await()
                                 }
                                 LitePal.deleteAll<BoxIn>()
                                 LitePal.deleteAll<BoxOut>()

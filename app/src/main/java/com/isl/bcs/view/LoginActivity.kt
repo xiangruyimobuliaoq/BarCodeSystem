@@ -21,8 +21,10 @@ import org.json.JSONObject
  */
 class LoginActivity : AppCompatActivity() {
 
-    private var userId = "system"
-    private var password = "f"
+    private val userId = "system"
+    private val password = "f"
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,7 +55,7 @@ class LoginActivity : AppCompatActivity() {
                                         .put("company_code", Constants.companyCode).toString()
                                 )
                             }.await()
-                            Log.e("123", "json.getString(data)")
+                            Log.e("123", resp.toString())
                             if (resp?.tokenID?.isNotEmpty() == true) {
                                 Constants.token = resp?.tokenID
                                 App.app.initNet()

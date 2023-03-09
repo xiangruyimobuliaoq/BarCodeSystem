@@ -53,4 +53,7 @@
     <string name="transfer">转仓录入</string>
     <string name="complete">完成</string>
     <string name="staff_code_error">作业者编号错误</string>
+    <string name="error_item">机种不符合</string>
+    <string name="scan_staff_card_no">扫描员工工号.</string>
+    <string name="qty">数量</string>
 </resources>

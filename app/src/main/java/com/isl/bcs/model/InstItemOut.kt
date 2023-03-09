@@ -28,6 +28,7 @@ class InstItemOut(
     var INST_OUT_KEY: String? = null,
     var OUT_DATE: String = "",
     var A_ID_NO: String = "",
-    var A_DATETIME: String = ""
+    var A_DATETIME: String = "",
+    var ITEM_QTY: Int = 0
 ) : LitePalSupport(), java.io.Serializable {
 }

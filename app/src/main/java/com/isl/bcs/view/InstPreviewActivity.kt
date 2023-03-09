@@ -45,7 +45,7 @@ class InstPreviewActivity : BaseActivity() {
                 tvName.text = it[6]
                 tvWhLoc1.text = it[10]
                 tvWhLoc2.text = it[11]
-                tvTotalQty.text = it[7]
+                tvTotalQty.text = it[7] + it[8] + "   " + it[14] + "pcs"
                 if (it[0].startsWith("I")) {
                     ivFlag.setImageResource(R.mipmap.box_details_icon_in)
                 } else {
@@ -91,6 +91,7 @@ class InstPreviewActivity : BaseActivity() {
                             setCancel(getString(R.string.dialog_cancel))
                             setSureListener {
                                 openActivity<InOutActivity>()
+                                finish()
                             }
                             setCancelListener {
                                 this.cancel()
@@ -98,6 +99,7 @@ class InstPreviewActivity : BaseActivity() {
                         }.show()
                     } else {
                         openActivity<InOutActivity>()
+                        finish()
                     }
                 } else if (data[0].startsWith("O")) {
                     if (mInstDataOut.SCAN_QTY < mInstDataOut.PKG_QTY) {
@@ -108,6 +110,7 @@ class InstPreviewActivity : BaseActivity() {
                             setCancel(getString(R.string.dialog_cancel))
                             setSureListener {
                                 openActivity<InOutActivity>()
+                                finish()
                             }
                             setCancelListener {
                                 this.cancel()
@@ -115,12 +118,14 @@ class InstPreviewActivity : BaseActivity() {
                         }.show()
                     } else {
                         openActivity<InOutActivity>()
+                        finish()
                     }
                 }
             }
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun getCurrentInst() {
         if (data[0].startsWith("I")) {
             val result =
@@ -158,14 +163,18 @@ class InstPreviewActivity : BaseActivity() {
                         "yyyy-MM-dd hh:mm:ss",
                         Locale.CHINA
                     ).format(System.currentTimeMillis()),
-                    Constants.currentStaff?.id_no
+                    Constants.currentStaff?.id_no,
+                    data[14].toInt(),
+                    data[15].toInt()
                 )
                 mInstDataOut.save()
             } else {
                 mInstDataOut = result[0]
             }
-            mBinding.tvScanQty.text = mInstDataOut.SCAN_QTY.toString()
-            mBinding.tvRemianQty.text = (mInstDataOut.PKG_QTY - mInstDataOut.SCAN_QTY).toString()
+            mBinding.tvScanQty.text =
+                mInstDataOut.SCAN_QTY.toString() + data[8] + "    " + mInstDataOut.SCAN_ITEM_QTY
+            mBinding.tvRemianQty.text =
+                (mInstDataOut.PKG_QTY - mInstDataOut.SCAN_QTY).toString() + data[8] + "    " + (mInstDataOut.PCS_QTY - mInstDataOut.SCAN_ITEM_QTY)
         }
     }
 
@@ -183,14 +192,14 @@ class InstPreviewActivity : BaseActivity() {
                     setSure(getString(R.string.dialog_ok))
                     setCancel(getString(R.string.dialog_cancel))
                     setSureListener {
-                        super.onBackPressed()
+                        onBackPressedDispatcher.onBackPressed()
                     }
                     setCancelListener {
                         cancel()
                     }
                 }.show()
             } else {
-                super.onBackPressed()
+                onBackPressedDispatcher.onBackPressed()
             }
         } else if (data[0].startsWith("O")) {
             if (mInstDataOut.SCAN_QTY < mInstDataOut.PKG_QTY) {
@@ -200,14 +209,14 @@ class InstPreviewActivity : BaseActivity() {
                     setSure(getString(R.string.dialog_ok))
                     setCancel(getString(R.string.dialog_cancel))
                     setSureListener {
-                        super.onBackPressed()
+                        onBackPressedDispatcher.onBackPressed()
                     }
                     setCancelListener {
                         cancel()
                     }
                 }.show()
             } else {
-                super.onBackPressed()
+                onBackPressedDispatcher.onBackPressed()
             }
 
         }
