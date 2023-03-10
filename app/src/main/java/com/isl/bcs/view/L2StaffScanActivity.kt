@@ -52,8 +52,9 @@ class L2StaffScanActivity : BaseActivity() {
         ActivityL2StaffScanBinding.inflate(layoutInflater).apply {
             setContentView(root)
             setSupportActionBar(toolbar.toolbar)
+            supportActionBar?.title = ""
             immersive(toolbar.toolbar, false)
-            (findViewById<View>(R.id.tv_title) as TextView).text = getString(R.string.staff_scan)
+            toolbar.tvTitle.text = getString(R.string.staff_scan)
         }
     }
 

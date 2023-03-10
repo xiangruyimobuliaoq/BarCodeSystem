@@ -13,6 +13,9 @@ import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import com.drake.net.utils.scopeLife
+import com.drake.net.utils.withIO
+import com.drake.net.utils.withMain
 import com.drake.serialize.intent.openActivity
 import com.drake.tooltip.toast
 import com.isl.bcs.R
@@ -260,71 +263,148 @@ class SunMiBoxInOutScanActivity : BaseActivity(), SurfaceHolder.Callback {
                 val res = sym.result
                 Log.e("123", res)
                 val instData = intent.getStringExtra("instData")?.split(",")!!
-                if (instData[0].startsWith("O")) {
-                    val boxOutRes = LitePal.where("BOX_LABEL1 = ?", res).find<BoxOut>()
-                    if (boxOutRes.isNotEmpty()) {
-                        RxDialogSure(this@SunMiBoxInOutScanActivity).apply {
-                            setContent(getString(R.string.dialog_scanned))
-                            setSure(getString(R.string.dialog_ok))
-                            setSureListener {
-                                cancel()
-                                openCamera()
-                            }
-                        }.show()
-                    } else {
-                        val boxInRes = LitePal.where("BOX_LABEL1 = ?", res).find<InstItemOut>()
-
-                        if (boxInRes.isNotEmpty()) {
-                            if (boxInRes[0].ITEM_1 != instData[5]) {
-                                toast(getString(R.string.error_item))
-                                return@PreviewCallback
-                            }
-                            openActivity<BoxInOutPreviewActivity>(
-                                "boxData" to boxInRes[0].BOX_LABEL1,
-                                "scanKey" to boxInRes[0].SCAN_KEY,
-                                "instData" to intent.getStringExtra("instData")
-                            )
-                        } else {
-                            RxDialogSure(this).apply {
-                                setContent(getString(R.string.dialog_not_find))
-                                setSure(getString(R.string.dialog_ok))
-                                setSureListener {
-                                    cancel()
-                                    openCamera()
+                scopeLife {
+                    withIO {
+                        if (instData[0].startsWith("O")) {
+                            val boxInRes = LitePal.where("BOX_LABEL1 = ?", res).find<InstItemOut>()
+                            val find = LitePal.where("BOX_LABEL1 = ?", res).find<BoxOut>()
+                            withMain {
+                                if (boxInRes.isNotEmpty() && boxInRes[0].INST_OUT_KEY.isNullOrEmpty()) {
+                                    if (find.isNotEmpty()) {
+                                        RxDialogSure(this@SunMiBoxInOutScanActivity).apply {
+                                            setContent(getString(R.string.dialog_scanned))
+                                            setSure(getString(R.string.dialog_ok))
+                                            setSureListener {
+                                                cancel()
+                                                openCamera()
+                                            }
+                                        }.show()
+                                    } else {
+                                        if (boxInRes[0].ITEM_1 != instData[5]) {
+                                            toast(getString(R.string.error_item))
+                                        } else {
+                                            openActivity<BoxInOutPreviewActivity>(
+                                                "boxData" to boxInRes[0].BOX_LABEL1,
+                                                "scanKey" to boxInRes[0].SCAN_KEY,
+                                                "instData" to intent.getStringExtra("instData")
+                                            )
+                                        }
+                                    }
+                                } else {
+                                    RxDialogSure(this@SunMiBoxInOutScanActivity).apply {
+                                        setContent(getString(R.string.dialog_not_find))
+                                        setSure(getString(R.string.dialog_ok))
+                                        setSureListener {
+                                            cancel()
+                                            openCamera()
+                                        }
+                                    }.show()
                                 }
-                            }.show()
+                            }
+                        } else if (instData[0].startsWith("I")) {
+                            val instItemOut =
+                                LitePal.where("BOX_LABEL1 = ?", res).find<InstItemOut>()
+                            if (instItemOut.isNotEmpty()) {
+                                withMain {
+                                    RxDialogSure(this@SunMiBoxInOutScanActivity).apply {
+                                        setContent(getString(R.string.dialog_exist))
+                                        setSure(getString(R.string.dialog_ok))
+                                        setSureListener {
+                                            cancel()
+                                            openCamera()
+                                        }
+                                    }.show()
+                                }
+                            } else {
+                                val find = LitePal.where("BOX_LABEL1 = ?", res).find<BoxIn>()
+                                withMain {
+                                    if (find.isNotEmpty()) {
+                                        RxDialogSure(this@SunMiBoxInOutScanActivity).apply {
+                                            setContent(getString(R.string.dialog_scanned))
+                                            setSure(getString(R.string.dialog_ok))
+                                            setSureListener {
+                                                cancel()
+                                                openCamera()
+                                            }
+                                        }.show()
+                                    } else {
+                                        openActivity<BoxInOutPreviewActivity>(
+                                            "boxData" to res,
+                                            "instData" to intent.getStringExtra("instData")
+                                        )
+                                    }
+                                }
+                            }
                         }
                     }
-                } else if (instData[0].startsWith("I")) {
-                    val instItemOut = LitePal.where("BOX_LABEL1 = ?", res).find<InstItemOut>()
-                    if (instItemOut.isNotEmpty()) {
-                        RxDialogSure(this@SunMiBoxInOutScanActivity).apply {
-                            setContent(getString(R.string.dialog_exist))
-                            setSure(getString(R.string.dialog_ok))
-                            setSureListener {
-                                cancel()
-                                openCamera()
-                            }
-                        }.show()
-                        break
-                    }
-                    val find = LitePal.where("BOX_LABEL1 = ?", res).find<BoxIn>()
-                    if (find.isNotEmpty()) {
-                        RxDialogSure(this@SunMiBoxInOutScanActivity).apply {
-                            setContent(getString(R.string.dialog_scanned))
-                            setSure(getString(R.string.dialog_ok))
-                            setSureListener {
-                                cancel()
-                                openCamera()
-                            }
-                        }.show()
-                    } else {
-                        openActivity<BoxInOutPreviewActivity>(
-                            "boxData" to res,
-                            "instData" to intent.getStringExtra("instData")
-                        )
-                    }
                 }
+
+//                if (instData[0].startsWith("O")) {
+//                    val boxOutRes = LitePal.where("BOX_LABEL1 = ?", res).find<InstItemOut>()
+//                    val find = LitePal.where("BOX_LABEL1 = ?", res).find<BoxOut>()
+//                    if (boxOutRes.isNotEmpty()) {
+//                        RxDialogSure(this@SunMiBoxInOutScanActivity).apply {
+//                            setContent(getString(R.string.dialog_scanned))
+//                            setSure(getString(R.string.dialog_ok))
+//                            setSureListener {
+//                                cancel()
+//                                openCamera()
+//                            }
+//                        }.show()
+//                    } else {
+//                        val boxInRes = LitePal.where("BOX_LABEL1 = ?", res).find<InstItemOut>()
+//
+//                        if (boxInRes.isNotEmpty()) {
+//                            if (boxInRes[0].ITEM_1 != instData[5]) {
+//                                toast(getString(R.string.error_item))
+//                                return@PreviewCallback
+//                            }
+//                            openActivity<BoxInOutPreviewActivity>(
+//                                "boxData" to boxInRes[0].BOX_LABEL1,
+//                                "scanKey" to boxInRes[0].SCAN_KEY,
+//                                "instData" to intent.getStringExtra("instData")
+//                            )
+//                        } else {
+//                            RxDialogSure(this).apply {
+//                                setContent(getString(R.string.dialog_not_find))
+//                                setSure(getString(R.string.dialog_ok))
+//                                setSureListener {
+//                                    cancel()
+//                                    openCamera()
+//                                }
+//                            }.show()
+//                        }
+//                    }
+//                } else if (instData[0].startsWith("I")) {
+//                    val instItemOut = LitePal.where("BOX_LABEL1 = ?", res).find<InstItemOut>()
+//                    if (instItemOut.isNotEmpty()) {
+//                        RxDialogSure(this@SunMiBoxInOutScanActivity).apply {
+//                            setContent(getString(R.string.dialog_exist))
+//                            setSure(getString(R.string.dialog_ok))
+//                            setSureListener {
+//                                cancel()
+//                                openCamera()
+//                            }
+//                        }.show()
+//                        break
+//                    }
+//                    val find = LitePal.where("BOX_LABEL1 = ?", res).find<BoxIn>()
+//                    if (find.isNotEmpty()) {
+//                        RxDialogSure(this@SunMiBoxInOutScanActivity).apply {
+//                            setContent(getString(R.string.dialog_scanned))
+//                            setSure(getString(R.string.dialog_ok))
+//                            setSureListener {
+//                                cancel()
+//                                openCamera()
+//                            }
+//                        }.show()
+//                    } else {
+//                        openActivity<BoxInOutPreviewActivity>(
+//                            "boxData" to res,
+//                            "instData" to intent.getStringExtra("instData")
+//                        )
+//                    }
+//                }
             }
         }
         sb.delete(0, sb.length)

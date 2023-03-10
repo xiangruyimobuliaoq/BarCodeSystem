@@ -118,7 +118,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 
-        <activityF
+        <activity
             android:name=".view.SunMiBoxInOutScanActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />

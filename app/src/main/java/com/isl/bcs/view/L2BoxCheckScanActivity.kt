@@ -29,7 +29,8 @@ class L2BoxCheckScanActivity : BaseActivity() {
             setContentView(root)
             setSupportActionBar(toolbar.toolbar)
             immersive(toolbar.toolbar, false)
-            (findViewById<View>(R.id.tv_title) as TextView).text =
+            supportActionBar?.title = ""
+            toolbar.tvTitle.text=
                 getString(R.string.box_label_scan)
             imageView5.setImageResource(R.mipmap.home_icon_3)
             btnExit.setOnClickListener {

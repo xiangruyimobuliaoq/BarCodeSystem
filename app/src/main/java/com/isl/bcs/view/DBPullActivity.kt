@@ -2,10 +2,13 @@ package com.isl.bcs.view
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import com.drake.net.Get
 import com.drake.net.utils.scopeNetLife
+import com.drake.net.utils.withDefault
 import com.drake.net.utils.withIO
+import com.drake.net.utils.withMain
 import com.drake.serialize.intent.openActivity
 import com.drake.statusbar.immersive
 import com.isl.bcs.R
@@ -15,6 +18,7 @@ import com.isl.bcs.model.*
 import com.isl.bcs.utils.Constants
 import org.litepal.LitePal
 import org.litepal.extension.deleteAll
+import org.litepal.extension.findAll
 import org.litepal.extension.saveAll
 
 class DBPullActivity : BaseActivity() {
@@ -58,11 +62,14 @@ class DBPullActivity : BaseActivity() {
                         whList.await()?.saveAll()
                         instItemList.await()?.saveAll()
                         instItemCheck.await()?.saveAll()
+//                        LitePal.findAll<InstItemOut>().forEach {
+//                            Log.e("label", it.BOX_LABEL1)
+//                        }
                     }
-                    btnNext.visibility = View.VISIBLE
-                    tvStatus.text = getString(R.string.complete)
-                    progressBar.isIndeterminate = false
-                    progressBar.progress = 100
+                        btnNext.visibility = View.VISIBLE
+                        tvStatus.text = getString(R.string.complete)
+                        progressBar.isIndeterminate = false
+                        progressBar.progress = 100
                 }
             }
             btnNext.setOnClickListener {

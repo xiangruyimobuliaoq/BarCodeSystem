@@ -26,7 +26,6 @@ class BoxInOutPreviewActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         val instData = intent.getStringExtra("instData")?.split(",")!!
         val boxData = intent.getStringExtra("boxData")!!
-        val instItemOut = LitePal.where("BOX_LABEL1 = ?", boxData).find<InstItemOut>()[0]
         val mBinding = ActivityBoxPreviewBinding.inflate(layoutInflater)
         with(mBinding) {
             setContentView(root)
@@ -35,11 +34,15 @@ class BoxInOutPreviewActivity : BaseActivity() {
             toolbar.tvTitle.text = getString(R.string.box_details)
             immersive(toolbar.toolbar, false)
             instData.let {
+                if (instData[0].startsWith("O")) {
+                    val instItemOut =
+                        LitePal.where("BOX_LABEL1 = ?", boxData).find<InstItemOut>()[0]
+                    tvQty.text = instItemOut.ITEM_QTY.toString()
+                }
                 tvLabel.text = boxData
                 tvStaff.text = Constants.currentStaff?.name
                 tvItem.text = it[5]
                 tvName.text = it[6]
-                tvQty.text = instItemOut.ITEM_QTY.toString()
                 tvWhLoc1.text = it[9]
                 tvWhLoc2.text = it[10]
                 tvDateTime.text = SimpleDateFormat(
@@ -55,6 +58,8 @@ class BoxInOutPreviewActivity : BaseActivity() {
                 scopeLife {
                     withIO {
                         if (instData[0].startsWith("O")) {
+                            val instItemOut =
+                                LitePal.where("BOX_LABEL1 = ?", boxData).find<InstItemOut>()[0]
                             val box = BoxOut(
                                 intent.getIntExtra("scanKey", 0),
                                 instData[0],

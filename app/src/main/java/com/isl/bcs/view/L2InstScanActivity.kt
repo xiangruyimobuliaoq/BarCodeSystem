@@ -23,7 +23,8 @@ class L2InstScanActivity : BaseActivity() {
             setContentView(root)
             setSupportActionBar(toolbar.toolbar)
             immersive(toolbar.toolbar, false)
-            (findViewById<View>(R.id.tv_title) as TextView).text = getString(R.string.ins_scan)
+            toolbar.tvTitle.text = getString(R.string.ins_scan)
+            supportActionBar?.title = ""
             btnExit.setOnClickListener {
                 finish()
             }
