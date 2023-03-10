@@ -24,7 +24,7 @@ class InstItemOut(
     var BOX_LABEL1: String = "",
     var WH_LOC1: String = "",
     var WH_LOC2: String = "",
-    var NG_FALG: String = "",
+    var NG_FALG: Boolean =false,
     var INST_OUT_KEY: String? = null,
     var OUT_DATE: String = "",
     var A_ID_NO: String = "",

@@ -141,14 +141,18 @@ class InstPreviewActivity : BaseActivity() {
                         "yyyy-MM-dd hh:mm:ss",
                         Locale.CHINA
                     ).format(System.currentTimeMillis()),
-                    Constants.currentStaff?.id_no
+                    Constants.currentStaff?.id_no,
+                    data[14].toInt(),
+                    data[15].toInt()
                 )
                 mInstDataIn.save()
             } else {
                 mInstDataIn = result[0]
             }
-            mBinding.tvScanQty.text = mInstDataIn.SCAN_QTY.toString()
-            mBinding.tvRemianQty.text = (mInstDataIn.PKG_QTY - mInstDataIn.SCAN_QTY).toString()
+            mBinding.tvScanQty.text =
+                mInstDataIn.SCAN_QTY.toString() + data[8] + "    " + mInstDataIn.SCAN_ITEM_QTY
+            mBinding.tvRemianQty.text =
+                (mInstDataIn.PKG_QTY - mInstDataIn.SCAN_QTY).toString() + data[8] + "    " + (mInstDataIn.PCS_QTY - mInstDataIn.SCAN_ITEM_QTY)
         } else if (data[0].startsWith("O")) {
             val result =
                 LitePal.where("INST_OUT_KEY = ?", data[0])
