@@ -2,6 +2,7 @@ package com.isl.bcs.view
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import com.drake.net.Get
 import com.drake.net.utils.scopeNetLife
@@ -43,10 +44,11 @@ class DBPullActivity : BaseActivity() {
                 tvStatus.visibility = View.VISIBLE
                 progressBar.visibility = View.VISIBLE
                 scopeNetLife(dispatcher = Dispatchers.IO) {
-                    val staffList = Get<List<Staff>?>("/master/staff")
-                    val whList = Get<List<Warehouse>?>("/master/warehouse")
-                    val instItemList = Get<List<InstItemOut>?>("/scan/stock")
-                    val instItemCheck = Get<List<InstItemCheck>?>("/scan/stock_check")
+                    Log.e("123","0")
+                    val staffList = Get<List<Staff>?>("/master/staff").await()
+                    val whList = Get<List<Warehouse>?>("/master/warehouse").await()
+                    val instItemList = Get<List<InstItemOut>?>("/scan/stock").await()
+                    val instItemCheck = Get<List<InstItemCheck>?>("/scan/stock_check").await()
                     LitePal.deleteAll<BoxIn>()
                     LitePal.deleteAll<BoxOut>()
                     LitePal.deleteAll<BoxTransfer>()
@@ -56,11 +58,13 @@ class DBPullActivity : BaseActivity() {
                     LitePal.deleteAll<Warehouse>()
                     LitePal.deleteAll<InstItemOut>()
                     LitePal.deleteAll<InstItemCheck>()
-                    staffList.await()?.saveAll()
-                    whList.await()?.saveAll()
-                    instItemList.await()?.saveAll()
-                    instItemCheck.await()?.saveAll()
+                    staffList?.saveAll()
+                    whList?.saveAll()
+                    instItemList?.saveAll()
+                    instItemCheck?.saveAll()
+                    Log.e("123","111111111111111")
                     withMain {
+                        Log.e("123","2222222222222")
                         btnNext.visibility = View.VISIBLE
                         tvStatus.text = getString(R.string.complete)
                         progressBar.isIndeterminate = false
