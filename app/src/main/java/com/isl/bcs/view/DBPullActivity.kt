@@ -44,7 +44,6 @@ class DBPullActivity : BaseActivity() {
                 tvStatus.visibility = View.VISIBLE
                 progressBar.visibility = View.VISIBLE
                 scopeNetLife(dispatcher = Dispatchers.IO) {
-                    Log.e("123","0")
                     val staffList = Get<List<Staff>?>("/master/staff").await()
                     val whList = Get<List<Warehouse>?>("/master/warehouse").await()
                     val instItemList = Get<List<InstItemOut>?>("/scan/stock").await()
@@ -62,7 +61,6 @@ class DBPullActivity : BaseActivity() {
                     whList?.saveAll()
                     instItemList?.saveAll()
                     instItemCheck?.saveAll()
-                    Log.e("123","111111111111111")
                     withMain {
                         btnNext.visibility = View.VISIBLE
                         tvStatus.text = getString(R.string.complete)
@@ -72,7 +70,7 @@ class DBPullActivity : BaseActivity() {
                 }
             }
             btnNext.setOnClickListener {
-                openActivity<SunMiStaffScanActivity>(
+                openActivity<L2StaffScanActivity>(
                     Constants.INTENT_TYPE to type
                 )
             }
