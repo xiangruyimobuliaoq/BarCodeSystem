@@ -78,13 +78,12 @@ class BoxInOutPreviewActivity : BaseActivity() {
                             )
                             val result =
                                 LitePal.where("INST_OUT_KEY = ?", instData[0]).find<InstTrxOut>()[0]
-                            if (result.SCAN_QTY < result.PKG_QTY - 1 && result.PCS_QTY > result.SCAN_ITEM_QTY + instItemOut.ITEM_QTY) {
+                            if (result.PCS_QTY > result.SCAN_ITEM_QTY + instItemOut.ITEM_QTY) {
                                 result.SCAN_QTY += 1
                                 result.SCAN_ITEM_QTY += instItemOut.ITEM_QTY
                                 result.save()
                                 box.save()
-                            } else if (result.SCAN_QTY == result.PKG_QTY - 1) {
-                                if (result.PCS_QTY == result.SCAN_ITEM_QTY + instItemOut.ITEM_QTY) {
+                            } else if (result.PCS_QTY == result.SCAN_ITEM_QTY + instItemOut.ITEM_QTY) {
                                     result.SCAN_QTY += 1
                                     result.SCAN_ITEM_QTY += instItemOut.ITEM_QTY
                                     result.INST_CLOSE_FLAG = true
@@ -93,9 +92,6 @@ class BoxInOutPreviewActivity : BaseActivity() {
                                 } else {
                                     toast(getString(R.string.error_item))
                                 }
-                            } else {
-
-                            }
                         } else if (instData[0].startsWith("I")) {
                             val box = BoxIn(
                                 instData[0],
