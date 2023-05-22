@@ -10,6 +10,7 @@ import com.isl.bcs.base.BaseActivity
 import com.isl.bcs.databinding.ActivityInstPreviewBinding
 import com.isl.bcs.model.InstTrxIn
 import com.isl.bcs.model.InstTrxOut
+import com.isl.bcs.model.Remain
 import com.isl.bcs.utils.Constants
 import com.tamsiree.rxui.view.dialog.RxDialogSure
 import com.tamsiree.rxui.view.dialog.RxDialogSureCancel
@@ -54,7 +55,7 @@ class InstPreviewActivity : BaseActivity() {
             }
             btnScanBox.setOnClickListener {
                 if (data[0].startsWith("I")) {
-                    if (mInstDataIn.SCAN_QTY >= mInstDataIn.PKG_QTY) {
+                    if (mInstDataIn.SCAN_ITEM_QTY >= mInstDataIn.PCS_QTY) {
                         RxDialogSure(this@InstPreviewActivity).apply {
                             setContent(getString(R.string.dialog_complete))
                             setSure(getString(R.string.dialog_ok))
@@ -67,7 +68,7 @@ class InstPreviewActivity : BaseActivity() {
                             "instData" to intent.getStringExtra("data")
                         )
                 } else if (data[0].startsWith("O")) {
-                    if (mInstDataOut.SCAN_QTY >= mInstDataOut.PKG_QTY) {
+                    if (mInstDataOut.SCAN_ITEM_QTY >= mInstDataOut.PCS_QTY) {
                         RxDialogSure(this@InstPreviewActivity).apply {
                             setContent(getString(R.string.dialog_complete))
                             setSure(getString(R.string.dialog_ok))
@@ -132,19 +133,38 @@ class InstPreviewActivity : BaseActivity() {
                 LitePal.where("INST_IN_KEY = ?", data[0])
                     .find<InstTrxIn>()
             if (result.isEmpty()) {
-                mInstDataIn = InstTrxIn(
-                    data[0],
-                    data[7].toDouble().toInt(),
-                    data[12].toInt(),
-                    data[13] == "1",
-                    SimpleDateFormat(
-                        "yyyy-MM-dd hh:mm:ss",
-                        Locale.CHINA
-                    ).format(System.currentTimeMillis()),
-                    Constants.currentStaff?.id_no,
-                    data[14].toInt(),
-                    data[15].toInt()
-                )
+                val remainList = LitePal.where("INST_KEY = ?", data[0]).find<Remain>()
+                if (remainList.isNotEmpty()) {
+                    val remain = remainList[0]
+                    mInstDataIn = InstTrxIn(
+                        data[0],
+                        data[7].toDouble().toInt(),
+                        remain.SCANNED_BOX_QTY.toInt(),
+                        data[13] == "1",
+                        SimpleDateFormat(
+                            "yyyy-MM-dd hh:mm:ss",
+                            Locale.CHINA
+                        ).format(System.currentTimeMillis()),
+                        Constants.currentStaff?.id_no,
+                        data[14].toInt(),
+                        remain.SCANNED_ITEM_QTY.toInt()
+                    )
+                } else {
+                    mInstDataIn = InstTrxIn(
+                        data[0],
+                        data[7].toDouble().toInt(),
+                        data[12].toInt(),
+                        data[13] == "1",
+                        SimpleDateFormat(
+                            "yyyy-MM-dd hh:mm:ss",
+                            Locale.CHINA
+                        ).format(System.currentTimeMillis()),
+                        Constants.currentStaff?.id_no,
+                        data[14].toInt(),
+                        data[15].toInt()
+                    )
+                }
+
                 mInstDataIn.save()
             } else {
                 mInstDataIn = result[0]
@@ -158,19 +178,37 @@ class InstPreviewActivity : BaseActivity() {
                 LitePal.where("INST_OUT_KEY = ?", data[0])
                     .find<InstTrxOut>()
             if (result.isEmpty()) {
-                mInstDataOut = InstTrxOut(
-                    data[0],
-                    data[7].toDouble().toInt(),
-                    data[12].toInt(),
-                    data[13] == "1",
-                    SimpleDateFormat(
-                        "yyyy-MM-dd hh:mm:ss",
-                        Locale.CHINA
-                    ).format(System.currentTimeMillis()),
-                    Constants.currentStaff?.id_no,
-                    data[14].toInt(),
-                    data[15].toInt()
-                )
+                val remainList = LitePal.where("INST_KEY = ?", data[0]).find<Remain>()
+                if (remainList.isNotEmpty()) {
+                    val remain = remainList[0]
+                    mInstDataOut = InstTrxOut(
+                        data[0],
+                        data[7].toDouble().toInt(),
+                        remain.SCANNED_BOX_QTY.toInt(),
+                        data[13] == "1",
+                        SimpleDateFormat(
+                            "yyyy-MM-dd hh:mm:ss",
+                            Locale.CHINA
+                        ).format(System.currentTimeMillis()),
+                        Constants.currentStaff?.id_no,
+                        data[14].toInt(),
+                        remain.SCANNED_ITEM_QTY.toInt()
+                    )
+                } else {
+                    mInstDataOut = InstTrxOut(
+                        data[0],
+                        data[7].toDouble().toInt(),
+                        data[12].toInt(),
+                        data[13] == "1",
+                        SimpleDateFormat(
+                            "yyyy-MM-dd hh:mm:ss",
+                            Locale.CHINA
+                        ).format(System.currentTimeMillis()),
+                        Constants.currentStaff?.id_no,
+                        data[14].toInt(),
+                        data[15].toInt()
+                    )
+                }
                 mInstDataOut.save()
             } else {
                 mInstDataOut = result[0]

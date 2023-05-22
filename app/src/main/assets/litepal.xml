@@ -42,6 +42,7 @@
         <mapping class="com.isl.bcs.model.InstItemOut" />
         <mapping class="com.isl.bcs.model.InstItemCheck" />
         <mapping class="com.isl.bcs.model.BoxCheck" />
+        <mapping class="com.isl.bcs.model.Remain" />
     </list>
 
     <!--

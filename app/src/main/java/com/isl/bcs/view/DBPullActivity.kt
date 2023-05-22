@@ -44,10 +44,12 @@ class DBPullActivity : BaseActivity() {
                 tvStatus.visibility = View.VISIBLE
                 progressBar.visibility = View.VISIBLE
                 scopeNetLife(dispatcher = Dispatchers.IO) {
+                    Log.e("123","0")
                     val staffList = Get<List<Staff>?>("/master/staff").await()
                     val whList = Get<List<Warehouse>?>("/master/warehouse").await()
                     val instItemList = Get<List<InstItemOut>?>("/scan/stock").await()
                     val instItemCheck = Get<List<InstItemCheck>?>("/scan/stock_check").await()
+                    val remain = Get<List<Remain>?>("/inst/remain").await()
                     LitePal.deleteAll<BoxIn>()
                     LitePal.deleteAll<BoxOut>()
                     LitePal.deleteAll<BoxTransfer>()
@@ -57,10 +59,12 @@ class DBPullActivity : BaseActivity() {
                     LitePal.deleteAll<Warehouse>()
                     LitePal.deleteAll<InstItemOut>()
                     LitePal.deleteAll<InstItemCheck>()
+                    LitePal.deleteAll<Remain>()
                     staffList?.saveAll()
                     whList?.saveAll()
                     instItemList?.saveAll()
                     instItemCheck?.saveAll()
+                    remain?.saveAll()
                     withMain {
                         btnNext.visibility = View.VISIBLE
                         tvStatus.text = getString(R.string.complete)
