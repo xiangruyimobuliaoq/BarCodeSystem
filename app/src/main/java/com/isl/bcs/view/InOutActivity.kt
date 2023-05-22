@@ -2,6 +2,7 @@ package com.isl.bcs.view
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import com.drake.net.Get
 import com.drake.net.Post
 import com.drake.net.Put
 import com.drake.net.utils.scopeDialog
@@ -12,16 +13,14 @@ import com.drake.statusbar.immersive
 import com.isl.bcs.R
 import com.isl.bcs.base.BaseActivity
 import com.isl.bcs.databinding.ActivityInOutBinding
-import com.isl.bcs.model.BoxIn
-import com.isl.bcs.model.BoxOut
-import com.isl.bcs.model.InstTrxIn
-import com.isl.bcs.model.InstTrxOut
+import com.isl.bcs.model.*
 import com.tamsiree.rxui.view.dialog.RxDialogSureCancel
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.litepal.LitePal
 import org.litepal.extension.deleteAll
 import org.litepal.extension.findAll
+import org.litepal.extension.saveAll
 
 class InOutActivity : BaseActivity() {
     @SuppressLint("SetTextI18n")
@@ -67,6 +66,9 @@ class InOutActivity : BaseActivity() {
                                         json(Json.encodeToString(instTrxOut))
                                     }.await()
                                 }
+                                val remain = Get<List<Remain>?>("/inst/remain").await()
+                                LitePal.deleteAll<Remain>()
+                                remain?.saveAll()
                                 LitePal.deleteAll<BoxIn>()
                                 LitePal.deleteAll<BoxOut>()
                                 LitePal.deleteAll<InstTrxIn>()

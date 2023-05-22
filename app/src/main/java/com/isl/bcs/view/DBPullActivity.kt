@@ -49,6 +49,7 @@ class DBPullActivity : BaseActivity() {
                     val whList = Get<List<Warehouse>?>("/master/warehouse").await()
                     val instItemList = Get<List<InstItemOut>?>("/scan/stock").await()
                     val instItemCheck = Get<List<InstItemCheck>?>("/scan/stock_check").await()
+                    val remain = Get<List<Remain>?>("/inst/remain").await()
                     LitePal.deleteAll<BoxIn>()
                     LitePal.deleteAll<BoxOut>()
                     LitePal.deleteAll<BoxTransfer>()
@@ -58,13 +59,13 @@ class DBPullActivity : BaseActivity() {
                     LitePal.deleteAll<Warehouse>()
                     LitePal.deleteAll<InstItemOut>()
                     LitePal.deleteAll<InstItemCheck>()
+                    LitePal.deleteAll<Remain>()
                     staffList?.saveAll()
                     whList?.saveAll()
                     instItemList?.saveAll()
                     instItemCheck?.saveAll()
-                    Log.e("123","111111111111111")
+                    remain?.saveAll()
                     withMain {
-                        Log.e("123","2222222222222")
                         btnNext.visibility = View.VISIBLE
                         tvStatus.text = getString(R.string.complete)
                         progressBar.isIndeterminate = false
